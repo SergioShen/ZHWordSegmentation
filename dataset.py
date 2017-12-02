@@ -19,24 +19,25 @@ class Dataset:
         Initialize the dataset: generate/load vocabulary, generate features
         :param name: name of dataset, should be 'train' or 'test' or 'keyboard'
         """
-        self.train = name == 'train'
-        self.keyboard_test = name == 'keyboard'
-
         # Open data file
-        if self.train:
+        if name == 'train':
             self.data_file = open(TRAIN_DATA, 'r')
-        elif self.keyboard_test:
+        elif name == 'test':
             self.data_file = open(TEST_ANSWER, 'r')
 
         # Generate vocabulary, features, labels and words
         self.vocab = Vocab([UNKNOWN])
 
         # Load vocabulary if not train
-        if not self.train:
+        if name != 'train':
             vocab_file = open(VOCAB_PATH, 'r')
             for line in vocab_file:
                 self.vocab.add(line.strip())
             vocab_file.close()
+
+        # Return if keyboard test
+        if name == 'keyboard':
+            return
 
         self.features = list()
         self.labels = list()
@@ -72,7 +73,7 @@ class Dataset:
                 sentence_label.append(label)
 
                 # Add feature
-                if self.train:
+                if name == 'train':
                     # When training, we need to add features into vocabulary and get indexes
                     sentence_features.append(((
                                                   # Uni-gram, with label 0
