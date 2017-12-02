@@ -5,6 +5,8 @@
 # @File: model.py
 # @Project: ZHWordSegmentation
 
+import gzip, pickle
+
 
 class Perceptron(object):
     """
@@ -17,7 +19,7 @@ class Perceptron(object):
         :param dimension: dimension of vocabulary
         """
         self.dimension = dimension
-        self.theta = [0] * (dimension + 1)  # Additional 1 (UNKNOWN) is always 0
+        self.theta = [0] * dimension
 
     def get_score(self, features):
         """
@@ -66,9 +68,8 @@ class Perceptron(object):
         :param path: save path
         :return: None
         """
-        file = open(path, 'w')
-        for i in range(self.dimension):
-            file.write(str(self.theta[i]) + '\n')
+        file = gzip.open(path, 'wb')
+        pickle.dump(self.theta, file)
         file.close()
 
         print('Model saved at path', path)
@@ -79,10 +80,8 @@ class Perceptron(object):
         :param path: save path
         :return: None
         """
-        file = open(path, 'r')
-        for i in range(self.dimension):
-            line = file.readline()
-            self.theta[i] = int(line.strip())
+        file = gzip.open(path, 'rb')
+        self.theta = pickle.load(file)
         file.close()
 
         print('Model loaded from saved model', path)
