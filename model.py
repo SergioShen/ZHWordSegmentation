@@ -6,6 +6,8 @@
 # @Project: ZHWordSegmentation
 
 import gzip, pickle
+import random
+import copy
 
 
 class Perceptron(object):
@@ -19,7 +21,11 @@ class Perceptron(object):
         :param dimension: dimension of vocabulary
         """
         self.dimension = dimension
-        self.theta = [0] * dimension
+        self.theta = [random.randint(-5, 5) for i in range(dimension)]
+        self.theta[0] = 0
+        self.theta_sum = [0] * dimension
+        self.last_update = [0] * dimension
+        self.total_step = 0
 
     def get_score(self, features):
         """
@@ -41,11 +47,16 @@ class Perceptron(object):
         score_false = self.get_score(feature_list[1 - label])
 
         # Update theta
+        self.total_step += 1
         if score_false >= score_true:
             for i in feature_list[label]:
+                self.theta_sum[i] += self.theta[i] * (self.total_step - self.last_update[i]) + 1
                 self.theta[i] += 1
+                self.last_update[i] = self.total_step
             for i in feature_list[1 - label]:
+                self.theta_sum[i] += self.theta[i] * (self.total_step - self.last_update[i]) - 1
                 self.theta[i] -= 1
+                self.last_update[i] = self.total_step
 
     def predict(self, feature_list):
         """
@@ -62,12 +73,20 @@ class Perceptron(object):
         else:
             return 1
 
-    def save(self, path):
+    def save(self, path, average=True):
         """
         Save the model arguments
         :param path: save path
+        :param average: use average perceptron
         :return: None
         """
+        if average:
+            # Make average
+            for i in range(self.dimension):
+                if self.last_update[i] != self.total_step:
+                    self.theta_sum[i] += self.theta[i] * (self.total_step - self.last_update[i])
+                self.theta[i] = self.theta_sum[i] / self.total_step
+
         file = gzip.open(path, 'wb')
         pickle.dump(self.theta, file)
         file.close()

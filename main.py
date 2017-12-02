@@ -9,7 +9,7 @@ from constant import *
 from model import Perceptron
 from dataset import Dataset
 
-USE_MODEL = PERCEPTRON_MODEL
+USE_MODEL = AVERAGE_PERCEPTRON_MODEL
 
 
 def train(model_name):
@@ -85,6 +85,6 @@ def keyboard_test(model_name):
 
 
 if __name__ == '__main__':
-    # train(PERCEPTRON_MODEL)
-    # test(PERCEPTRON_MODEL)
-    keyboard_test(PERCEPTRON_MODEL)
+    train(USE_MODEL)
+    test(USE_MODEL)
+    keyboard_test(USE_MODEL)
