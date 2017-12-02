@@ -1,0 +1,5 @@
+.idea/
+__pycache__/
+result/test.output.txt
+result/vocab.txt
+saved_model/
