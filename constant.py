@@ -11,7 +11,7 @@ import os
 DEBUG = True
 
 # Arguments of model
-EPOCH = 20
+EPOCH = 10
 
 # Constants
 SPACE = [' ', '　']
