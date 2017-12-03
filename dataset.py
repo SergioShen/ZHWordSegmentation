@@ -9,7 +9,7 @@ from constant import *
 from vocab import Vocab
 
 
-class Dataset:
+class Dataset(object):
     """
     A dataset with formatted contents, used for train and test
     """
@@ -77,61 +77,65 @@ class Dataset:
                     # When training, we need to add features into vocabulary and get indexes
                     sentence_features.append(((
                                                   # Uni-gram, with label 0
-                                                  self.vocab.add('_'.join((text[prev], str(0)))),
-                                                  self.vocab.add(('_'.join((text[i], str(0))))),
-                                                  self.vocab.add(('_'.join((text[next], str(0))))),
+                                                  self.vocab.add('_'.join((str(1), text[prev], str(0)))),
+                                                  self.vocab.add(('_'.join((str(2), text[i], str(0))))),
+                                                  self.vocab.add(('_'.join((str(3), text[next], str(0))))),
 
                                                   # Bi-gram, with label 0
-                                                  self.vocab.add('_'.join((text[prev], text[i], str(0)))),
-                                                  self.vocab.add('_'.join((text[i], text[next], str(0)))),
-                                                  self.vocab.add('_'.join((text[prev], text[next], str(0)))),
+                                                  self.vocab.add('_'.join((str(4), text[prev], text[i], str(0)))),
+                                                  self.vocab.add('_'.join((str(5), text[i], text[next], str(0)))),
+                                                  self.vocab.add('_'.join((str(6), text[prev], text[next], str(0)))),
 
                                                   # Tri-gram, with label 0
-                                                  self.vocab.add('_'.join((text[prev], text[i], text[next], str(0))))
+                                                  self.vocab.add(
+                                                      '_'.join((str(7), text[prev], text[i], text[next], str(0))))
                                               ), (
                                                   # Uni-gram, with label 1
-                                                  self.vocab.add('_'.join((text[prev], str(1)))),
-                                                  self.vocab.add(('_'.join((text[i], str(1))))),
-                                                  self.vocab.add(('_'.join((text[next], str(1))))),
+                                                  self.vocab.add('_'.join((str(1), text[prev], str(1)))),
+                                                  self.vocab.add(('_'.join((str(2), text[i], str(1))))),
+                                                  self.vocab.add(('_'.join((str(3), text[next], str(1))))),
 
                                                   # Bi-gram, with label 1
-                                                  self.vocab.add('_'.join((text[prev], text[i], str(1)))),
-                                                  self.vocab.add('_'.join((text[i], text[next], str(1)))),
-                                                  self.vocab.add('_'.join((text[prev], text[next], str(1)))),
+                                                  self.vocab.add('_'.join((str(4), text[prev], text[i], str(1)))),
+                                                  self.vocab.add('_'.join((str(5), text[i], text[next], str(1)))),
+                                                  self.vocab.add('_'.join((str(6), text[prev], text[next], str(1)))),
 
                                                   # Tri-gram, with label 1
-                                                  self.vocab.add('_'.join((text[prev], text[i], text[next], str(1))))
+                                                  self.vocab.add(
+                                                      '_'.join((str(7), text[prev], text[i], text[next], str(1))))
                                               )))
                 else:
                     # When testing, we only need to get indexes from vocabulary
                     sentence_features.append(((
                                                   # Uni-gram, with label 0
-                                                  self.vocab.get_index('_'.join((text[prev], str(0)))),
-                                                  self.vocab.get_index(('_'.join((text[i], str(0))))),
-                                                  self.vocab.get_index(('_'.join((text[next], str(0))))),
+                                                  self.vocab.get_index('_'.join((str(1), text[prev], str(0)))),
+                                                  self.vocab.get_index(('_'.join((str(2), text[i], str(0))))),
+                                                  self.vocab.get_index(('_'.join((str(3), text[next], str(0))))),
 
                                                   # Bi-gram, with label 0
-                                                  self.vocab.get_index('_'.join((text[prev], text[i], str(0)))),
-                                                  self.vocab.get_index('_'.join((text[i], text[next], str(0)))),
-                                                  self.vocab.get_index('_'.join((text[prev], text[next], str(0)))),
+                                                  self.vocab.get_index('_'.join((str(4), text[prev], text[i], str(0)))),
+                                                  self.vocab.get_index('_'.join((str(5), text[i], text[next], str(0)))),
+                                                  self.vocab.get_index(
+                                                      '_'.join((str(6), text[prev], text[next], str(0)))),
 
                                                   # Tri-gram, with label 0
                                                   self.vocab.get_index(
-                                                      '_'.join((text[prev], text[i], text[next], str(0))))
+                                                      '_'.join((str(7), text[prev], text[i], text[next], str(0))))
                                               ), (
                                                   # Uni-gram, with label 1
-                                                  self.vocab.get_index('_'.join((text[prev], str(1)))),
-                                                  self.vocab.get_index(('_'.join((text[i], str(1))))),
-                                                  self.vocab.get_index(('_'.join((text[next], str(1))))),
+                                                  self.vocab.get_index('_'.join((str(1), text[prev], str(1)))),
+                                                  self.vocab.get_index(('_'.join((str(2), text[i], str(1))))),
+                                                  self.vocab.get_index(('_'.join((str(3), text[next], str(1))))),
 
                                                   # Bi-gram, with label 1
-                                                  self.vocab.get_index('_'.join((text[prev], text[i], str(1)))),
-                                                  self.vocab.get_index('_'.join((text[i], text[next], str(1)))),
-                                                  self.vocab.get_index('_'.join((text[prev], text[next], str(1)))),
+                                                  self.vocab.get_index('_'.join((str(4), text[prev], text[i], str(1)))),
+                                                  self.vocab.get_index('_'.join((str(5), text[i], text[next], str(1)))),
+                                                  self.vocab.get_index(
+                                                      '_'.join((str(6), text[prev], text[next], str(1)))),
 
                                                   # Tri-gram, with label 1
                                                   self.vocab.get_index(
-                                                      '_'.join((text[prev], text[i], text[next], str(1))))
+                                                      '_'.join((str(7), text[prev], text[i], text[next], str(1))))
                                               )))
             self.labels.append(sentence_label)
             self.features.append(sentence_features)
@@ -174,31 +178,34 @@ class Dataset:
             prev = i - 1
             next = i + 1
             features.append(((
-                                 # Uni-gram
-                                 self.vocab.get_index('_'.join((text[prev], str(0)))),
-                                 self.vocab.get_index(('_'.join((text[i], str(0))))),
-                                 self.vocab.get_index(('_'.join((text[next], str(0))))),
+                                 self.vocab.get_index('_'.join((str(1), text[prev], str(0)))),
+                                 self.vocab.get_index(('_'.join((str(2), text[i], str(0))))),
+                                 self.vocab.get_index(('_'.join((str(3), text[next], str(0))))),
 
-                                 # Bi-gram
-                                 self.vocab.get_index('_'.join((text[prev], text[i], str(0)))),
-                                 self.vocab.get_index('_'.join((text[i], text[next], str(0)))),
-                                 self.vocab.get_index('_'.join((text[prev], text[next], str(0)))),
+                                 # Bi-gram, with label 0
+                                 self.vocab.get_index('_'.join((str(4), text[prev], text[i], str(0)))),
+                                 self.vocab.get_index('_'.join((str(5), text[i], text[next], str(0)))),
+                                 self.vocab.get_index(
+                                     '_'.join((str(6), text[prev], text[next], str(0)))),
 
-                                 # Tri-gram
-                                 self.vocab.get_index('_'.join((text[prev], text[i], text[next], str(0))))
+                                 # Tri-gram, with label 0
+                                 self.vocab.get_index(
+                                     '_'.join((str(7), text[prev], text[i], text[next], str(0))))
                              ), (
-                                 # Uni-gram
-                                 self.vocab.get_index('_'.join((text[prev], str(1)))),
-                                 self.vocab.get_index(('_'.join((text[i], str(1))))),
-                                 self.vocab.get_index(('_'.join((text[next], str(1))))),
+                                 # Uni-gram, with label 1
+                                 self.vocab.get_index('_'.join((str(1), text[prev], str(1)))),
+                                 self.vocab.get_index(('_'.join((str(2), text[i], str(1))))),
+                                 self.vocab.get_index(('_'.join((str(3), text[next], str(1))))),
 
-                                 # Bi-gram
-                                 self.vocab.get_index('_'.join((text[prev], text[i], str(1)))),
-                                 self.vocab.get_index('_'.join((text[i], text[next], str(1)))),
-                                 self.vocab.get_index('_'.join((text[prev], text[next], str(1)))),
+                                 # Bi-gram, with label 1
+                                 self.vocab.get_index('_'.join((str(4), text[prev], text[i], str(1)))),
+                                 self.vocab.get_index('_'.join((str(5), text[i], text[next], str(1)))),
+                                 self.vocab.get_index(
+                                     '_'.join((str(6), text[prev], text[next], str(1)))),
 
-                                 # Tri-gram
-                                 self.vocab.get_index('_'.join((text[prev], text[i], text[next], str(1))))
+                                 # Tri-gram, with label 1
+                                 self.vocab.get_index(
+                                     '_'.join((str(7), text[prev], text[i], text[next], str(1))))
                              )))
         return features
 
