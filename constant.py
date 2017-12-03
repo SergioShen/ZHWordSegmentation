@@ -32,6 +32,7 @@ VOCAB_PATH = os.path.join(RESULT_PATH, 'vocab.txt')
 MODEL_SAVE_PATH = os.path.join(PROJECT_PATH, 'saved_model')
 PERCEPTRON_MODEL = 'perceptron.model'
 AVERAGE_PERCEPTRON_MODEL = 'perceptron.average.model'
+STRUCTURED_PERCEPTRON_MODEL = 'perceptron.structured.model'
 
 if not os.path.exists(MODEL_SAVE_PATH):
     os.mkdir(MODEL_SAVE_PATH)
