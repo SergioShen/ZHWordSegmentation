@@ -11,7 +11,7 @@ import os
 DEBUG = True
 
 # Arguments of model
-EPOCH = 20
+EPOCH = 10
 
 # Constants
 SPACE = [' ', '　']
@@ -23,15 +23,17 @@ PROJECT_PATH = './'
 DATASET_PATH = os.path.join(PROJECT_PATH, 'data_set')
 TRAIN_DATA = os.path.join(DATASET_PATH, 'train.txt')
 TEST_DATA = os.path.join(DATASET_PATH, 'test.txt')
+TEST_ANSWER = os.path.join(DATASET_PATH, 'test.answer.txt')
+VOCAB_PATH = os.path.join(DATASET_PATH, 'vocab.txt')
 
 RESULT_PATH = os.path.join(PROJECT_PATH, 'result')
-TEST_ANSWER = os.path.join(RESULT_PATH, 'test.answer.txt')
 TEST_OUTPUT = os.path.join(RESULT_PATH, "test.output.txt")
-VOCAB_PATH = os.path.join(RESULT_PATH, 'vocab.txt')
 
 MODEL_SAVE_PATH = os.path.join(PROJECT_PATH, 'saved_model')
 PERCEPTRON_MODEL = 'perceptron.model'
 AVERAGE_PERCEPTRON_MODEL = 'perceptron.average.model'
+STRUCTURED_PERCEPTRON_MODEL = 'perceptron.structured.model'
+AVERAGE_STRUCTURED_PERCEPTRON_MODEL = 'perceptron.average.structured.model'
 
 if not os.path.exists(MODEL_SAVE_PATH):
     os.mkdir(MODEL_SAVE_PATH)
