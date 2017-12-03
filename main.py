@@ -20,7 +20,8 @@ def train(model_name):
     """
     print('--------', 'Generating dataset', '--------')
     train_dataset = Dataset('train')
-    train_dataset.save_vocab(VOCAB_PATH)
+    if not os.path.exists(VOCAB_PATH):
+        train_dataset.save_vocab(VOCAB_PATH)
     model = Perceptron(train_dataset.vocab.size())
 
     print('--------', 'Training begins', '--------')

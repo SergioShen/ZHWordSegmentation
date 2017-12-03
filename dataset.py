@@ -28,8 +28,10 @@ class Dataset(object):
         # Generate vocabulary, features, labels and words
         self.vocab = Vocab([UNKNOWN])
 
-        # Load vocabulary if not train
-        if name != 'train':
+        # Load vocabulary if vocab exists
+        self.vocab_loaded = False
+        if os.path.exists(VOCAB_PATH):
+            self.vocab_loaded = True
             vocab_file = open(VOCAB_PATH, 'r')
             for line in vocab_file:
                 self.vocab.add(line.strip())
@@ -73,8 +75,8 @@ class Dataset(object):
                 sentence_label.append(label)
 
                 # Add feature
-                if name == 'train':
-                    # When training, we need to add features into vocabulary and get indexes
+                if not self.vocab_loaded:
+                    # Vocab is not loaded, we need to add features into vocabulary and get indexes
                     sentence_features.append(((
                                                   # Uni-gram, with label 0
                                                   self.vocab.add('_'.join((str(1), text[prev], str(0)))),
@@ -105,7 +107,7 @@ class Dataset(object):
                                                       '_'.join((str(7), text[prev], text[i], text[next], str(1))))
                                               )))
                 else:
-                    # When testing, we only need to get indexes from vocabulary
+                    # Vocab loaded, we only need to get indexes from vocabulary
                     sentence_features.append(((
                                                   # Uni-gram, with label 0
                                                   self.vocab.get_index('_'.join((str(1), text[prev], str(0)))),
