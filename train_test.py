@@ -9,16 +9,14 @@ from constant import *
 from model import Perceptron, StructuredPerceptron
 from dataset import Dataset
 
-USE_MODEL = STRUCTURED_PERCEPTRON_MODEL
 
-
-def train(model_name):
+def train(model_name, average):
     """
     Train the model with train dataset
     :param model_name: model to be trained
     :return: None
     """
-    print('--------', 'Generating dataset', '--------')
+    print('--------', 'Generating train dataset', '--------')
     train_dataset = Dataset('train')
     if not os.path.exists(VOCAB_PATH):
         train_dataset.save_vocab(VOCAB_PATH)
@@ -26,30 +24,33 @@ def train(model_name):
 
     print('--------', 'Training begins', '--------')
     for e in range(EPOCH):
+        print('Epoch', e, '  ', end='', flush=True)
         for i in range(len(train_dataset)):
             features, labels, words = train_dataset[i]
             for j in range(len(features)):
                 model.update(features[j], labels[j])
 
-            if i % 1000 == 0:
-                print('Epoch %d, step %d' % (e, i))
+            if i % 2000 == 0:
+                print('.', end='', flush=True)
+        print('')
+    print('--------', 'Training finished', '--------')
 
-    model.save(os.path.join(MODEL_SAVE_PATH, model_name))
+    model.save(os.path.join(MODEL_SAVE_PATH, model_name), average)
 
 
-def test(model_name):
+def test(model_name, output_file_path):
     """
     Test the saved model with test dataset
     :param model_name: model to be used
     :return: None
     """
-    print('--------', 'Generating dataset', '--------')
+    print('--------', 'Generating test dataset', '--------')
     test_dataset = Dataset('test')
     model = Perceptron(test_dataset.vocab.size())
     model.load(os.path.join(MODEL_SAVE_PATH, model_name))
 
     print('--------', 'Testing begins', '--------')
-    output_file = open(TEST_OUTPUT, 'w')
+    output_file = open(output_file_path, 'w')
     for i in range(len(test_dataset)):
         features, labels, words = test_dataset[i]
         sentence = ''.join(words)
@@ -59,6 +60,8 @@ def test(model_name):
             if pred == 1:
                 output_file.write('  ')
         output_file.write('\n')
+    print('--------', 'Testing finished', '--------')
+    print('Result saved at path', output_file_path)
 
 
 def keyboard_test(model_name):
@@ -67,7 +70,7 @@ def keyboard_test(model_name):
     :param model_name: model to be used
     :return: None
     """
-    print('--------', 'Generating dataset', '--------')
+    print('--------', 'Loading vocabulary', '--------')
     test_dataset = Dataset('keyboard')
     model = Perceptron(test_dataset.vocab.size())
     model.load(os.path.join(MODEL_SAVE_PATH, model_name))
@@ -85,13 +88,13 @@ def keyboard_test(model_name):
         print('')
 
 
-def structured_train(model_name):
+def structured_train(model_name, average):
     """
     Train the model with train dataset
     :param model_name: model to be trained
     :return: None
     """
-    print('--------', 'Generating dataset', '--------')
+    print('--------', 'Generating train dataset', '--------')
     train_dataset = Dataset('train')
     if not os.path.exists(VOCAB_PATH):
         train_dataset.save_vocab(VOCAB_PATH)
@@ -99,31 +102,34 @@ def structured_train(model_name):
 
     print('--------', 'Training begins', '--------')
     for e in range(EPOCH):
+        print('Epoch', e, '  ', end='', flush=True)
         for i in range(len(train_dataset)):
             features, labels, words = train_dataset[i]
 
             if len(features) > 0:  # There exists empty sentence in the dataset
                 model.update(features, labels)
 
-            if i % 1000 == 0:
-                print('Epoch %d, step %d' % (e, i))
+            if i % 2000 == 0:
+                print('.', end='', flush=True)
+        print('')
+    print('--------', 'Training finished', '--------')
 
-    model.save(os.path.join(MODEL_SAVE_PATH, model_name))
+    model.save(os.path.join(MODEL_SAVE_PATH, model_name), average)
 
 
-def structured_test(model_name):
+def structured_test(model_name, output_file_path):
     """
     Test the saved model with test dataset
     :param model_name: model to be used
     :return: None
     """
-    print('--------', 'Generating dataset', '--------')
+    print('--------', 'Generating test dataset', '--------')
     test_dataset = Dataset('test')
     model = StructuredPerceptron(test_dataset.vocab.size())
     model.load(os.path.join(MODEL_SAVE_PATH, model_name))
 
     print('--------', 'Testing begins', '--------')
-    output_file = open(TEST_OUTPUT, 'w')
+    output_file = open(output_file_path, 'w')
     for i in range(len(test_dataset)):
         features, labels, words = test_dataset[i]
         sentence = ''.join(words)
@@ -133,6 +139,8 @@ def structured_test(model_name):
             if pred[j] == 1:
                 output_file.write('  ')
         output_file.write('\n')
+    print('--------', 'Testing finished', '--------')
+    print('Result saved at path', output_file_path)
 
 
 def structured_keyboard_test(model_name):
@@ -141,7 +149,7 @@ def structured_keyboard_test(model_name):
     :param model_name: model to be used
     :return: None
     """
-    print('--------', 'Generating dataset', '--------')
+    print('--------', 'Loading vocabulary', '--------')
     test_dataset = Dataset('keyboard')
     model = StructuredPerceptron(test_dataset.vocab.size())
     model.load(os.path.join(MODEL_SAVE_PATH, model_name))
@@ -157,9 +165,3 @@ def structured_keyboard_test(model_name):
             if pred[i] == 1:
                 print('  ', end='')
         print('')
-
-
-if __name__ == '__main__':
-    structured_train(USE_MODEL)
-    structured_test(USE_MODEL)
-    structured_keyboard_test(USE_MODEL)

@@ -210,10 +210,3 @@ class Dataset(object):
                                      '_'.join((str(7), text[prev], text[i], text[next], str(1))))
                              )))
         return features
-
-
-if __name__ == '__main__':
-    dataset = Dataset('train')
-    dataset.show_vocab()
-    print('Vocab size:', dataset.vocab.size())
-    print(dataset[0])
