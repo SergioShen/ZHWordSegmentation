@@ -21,8 +21,7 @@ class Perceptron(object):
         :param dimension: dimension of vocabulary
         """
         self.dimension = dimension
-        self.theta = [random.randint(-5, 5) for i in range(dimension)]
-        self.theta[0] = 0
+        self.theta = [0] * dimension
         self.theta_sum = [0] * dimension
         self.last_update = [0] * dimension
         self.total_step = 0
