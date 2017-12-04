@@ -5,8 +5,6 @@
 # @File: main.py
 # @Project: ZHWordSegmentation
 
-from __future__ import print_function
-
 from constant import *
 from model import Perceptron, StructuredPerceptron
 from dataset import Dataset
