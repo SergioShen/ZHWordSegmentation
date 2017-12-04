@@ -37,3 +37,5 @@ AVERAGE_STRUCTURED_PERCEPTRON_MODEL = 'perceptron.average.structured.model'
 
 if not os.path.exists(MODEL_SAVE_PATH):
     os.mkdir(MODEL_SAVE_PATH)
+if not os.path.exists(RESULT_PATH):
+    os.mkdir(RESULT_PATH)
