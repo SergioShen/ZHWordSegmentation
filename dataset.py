@@ -23,7 +23,7 @@ class Dataset(object):
         if name == 'train':
             self.data_file = open(TRAIN_DATA, 'r')
         elif name == 'test':
-            self.data_file = open(TEST_ANSWER, 'r')
+            self.data_file = open(TEST_DATA, 'r')
 
         # Generate vocabulary, features, labels and words
         self.vocab = Vocab([UNKNOWN])
