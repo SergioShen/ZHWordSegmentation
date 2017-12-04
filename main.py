@@ -9,7 +9,7 @@ from train_test import *
 from optparse import OptionParser
 
 # Parse command line arguments
-parser = OptionParser(usage='Usage: python %prog [-s] [-a] [-k] [-o <filename>]')
+parser = OptionParser(usage='Usage: python %prog [-s] [-a] [-t [ -o <filename>] | -k]')
 parser.add_option('-s', '--structured',
                   action='store_true',
                   dest='structured',
@@ -20,10 +20,10 @@ parser.add_option('-a', '--average',
                   dest='average',
                   help='Use average arguments'
                   )
-parser.add_option('-k', '--keyboard',
+parser.add_option('-t', '--test',
                   action='store_true',
-                  dest='keyboard',
-                  help='Run keyboard test'
+                  dest='test',
+                  help='Test selected model'
                   )
 parser.add_option('-o', '--output',
                   action='store',
@@ -31,6 +31,11 @@ parser.add_option('-o', '--output',
                   type='string',
                   default=TEST_OUTPUT,
                   help='Output test result into OUTPUTFILE')
+parser.add_option('-k', '--keyboard',
+                  action='store_true',
+                  dest='keyboard',
+                  help='Run keyboard test on selected model'
+                  )
 
 (options, args) = parser.parse_args()
 
@@ -43,13 +48,15 @@ if options.structured:
         USE_MODEL = STRUCTURED_PERCEPTRON_MODEL
     print('Model name:', USE_MODEL)
 
-    if options.keyboard:
+    if options.test:
+        # Begin testing
+        structured_test(USE_MODEL, options.outputfile)
+    elif options.keyboard:
         # Begin keyboard test
         structured_keyboard_test(USE_MODEL)
     else:
-        # Begin train and test
+        # Begin training
         structured_train(USE_MODEL, options.average)
-        structured_test(USE_MODEL, options.outputfile)
 
 else:
     if options.average:
@@ -59,10 +66,12 @@ else:
         USE_MODEL = PERCEPTRON_MODEL
     print('Model name:', USE_MODEL)
 
-    if options.keyboard:
+    if options.test:
+        # Begin testing
+        test(USE_MODEL, options.outputfile)
+    elif options.keyboard:
         # Begin keyboard test
         keyboard_test(USE_MODEL)
     else:
-        # Begin train and test
+        # Begin training
         train(USE_MODEL, options.average)
-        test(USE_MODEL, options.outputfile)
