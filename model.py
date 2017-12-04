@@ -5,7 +5,8 @@
 # @File: model.py
 # @Project: ZHWordSegmentation
 
-import gzip, pickle
+import gzip
+import pickle
 
 
 class Perceptron(object):

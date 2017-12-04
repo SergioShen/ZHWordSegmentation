@@ -5,6 +5,8 @@
 # @File: main.py
 # @Project: ZHWordSegmentation
 
+from __future__ import print_function
+
 from constant import *
 from model import Perceptron, StructuredPerceptron
 from dataset import Dataset
@@ -14,6 +16,7 @@ def train(model_name, average):
     """
     Train the model with train dataset
     :param model_name: model to be trained
+    :param average: use average model or not
     :return: None
     """
     print('--------', 'Generating train dataset', '--------')
@@ -42,6 +45,7 @@ def test(model_name, output_file_path):
     """
     Test the saved model with test dataset
     :param model_name: model to be used
+    :param output_file_path: test result output path
     :return: None
     """
     print('--------', 'Generating test dataset', '--------')
@@ -92,6 +96,7 @@ def structured_train(model_name, average):
     """
     Train the model with train dataset
     :param model_name: model to be trained
+    :param average: use average model or not
     :return: None
     """
     print('--------', 'Generating train dataset', '--------')
@@ -121,6 +126,7 @@ def structured_test(model_name, output_file_path):
     """
     Test the saved model with test dataset
     :param model_name: model to be used
+    :param output_file_path: test result output path
     :return: None
     """
     print('--------', 'Generating test dataset', '--------')
